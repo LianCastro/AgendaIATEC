@@ -1,3 +1,5 @@
+using Application.Core;
+using Application.Events;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -13,6 +15,10 @@ builder.Services.AddDbContext<DataContext>(opt =>
 {
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(List.Handler).Assembly));
+
+builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 
 var app = builder.Build();
 

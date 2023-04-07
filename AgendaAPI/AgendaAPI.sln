@@ -5,6 +5,7 @@ VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AgendaAPI", "AgendaAPI.csproj", "{72BFE37C-8572-4436-BB38-4A9B248516A2}"
 	ProjectSection(ProjectDependencies) = postProject
+		{5BD98D43-C721-435E-9F16-4F6316D95A39} = {5BD98D43-C721-435E-9F16-4F6316D95A39}
 		{BBE57C6B-D0A5-4179-BB7D-67590C639038} = {BBE57C6B-D0A5-4179-BB7D-67590C639038}
 	EndProjectSection
 EndProject
@@ -12,9 +13,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "..\Domain\Domain.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence", "..\Persistence\Persistence.csproj", "{67397493-3699-4F3C-B319-8B242F21C74E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "..\Application\Application.csproj", "{BBE57C6B-D0A5-4179-BB7D-67590C639038}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "..\Application\Application.csproj", "{BBE57C6B-D0A5-4179-BB7D-67590C639038}"
 	ProjectSection(ProjectDependencies) = postProject
 		{67397493-3699-4F3C-B319-8B242F21C74E} = {67397493-3699-4F3C-B319-8B242F21C74E}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "..\Infrastructure\Infrastructure.csproj", "{5BD98D43-C721-435E-9F16-4F6316D95A39}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BBE57C6B-D0A5-4179-BB7D-67590C639038} = {BBE57C6B-D0A5-4179-BB7D-67590C639038}
 	EndProjectSection
 EndProject
 Global
@@ -39,6 +45,10 @@ Global
 		{BBE57C6B-D0A5-4179-BB7D-67590C639038}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBE57C6B-D0A5-4179-BB7D-67590C639038}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BBE57C6B-D0A5-4179-BB7D-67590C639038}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BD98D43-C721-435E-9F16-4F6316D95A39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BD98D43-C721-435E-9F16-4F6316D95A39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BD98D43-C721-435E-9F16-4F6316D95A39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BD98D43-C721-435E-9F16-4F6316D95A39}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AgendaAPI.Controllers
 {
+    [AllowAnonymous]
     public class EventsController : BaseApiController
     {
         public EventsController()

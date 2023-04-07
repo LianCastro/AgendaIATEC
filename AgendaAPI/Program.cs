@@ -65,6 +65,18 @@ builder.Services.AddAuthorization(opt =>
 builder.Services.AddTransient<IAuthorizationHandler, HostRequirementHandler>();
 builder.Services.AddScoped<TokenService>();
 
+var myAngularPolicy = "myAngularPolicy";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(myAngularPolicy,
+        builder =>
+        {
+            builder.WithOrigins("https://localhost:4200")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -77,8 +89,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors(myAngularPolicy);
+
 app.UseAuthentication();
 app.UseAuthorization();
+
 
 app.MapControllers();
 

@@ -364,3 +364,5 @@ FodyWeavers.xsd
 .vscode/
 *.db-wal
 *.db-shm
+AgendaAPI/agenda.db-shm
+AgendaAPI/agenda.db-wal

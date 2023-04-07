@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Application.Core;
+using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain;
 using MediatR;
@@ -9,12 +10,12 @@ namespace Application.Events
 {
     public class Details
     {
-        public class Query : IRequest<EventDto>
+        public class Query : IRequest<Result<EventDto>>
         {
             public Guid Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, EventDto>
+        public class Handler : IRequestHandler<Query, Result<EventDto>>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -25,9 +26,10 @@ namespace Application.Events
                 _mapper = mapper;
             }
 
-            public async Task<EventDto> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<EventDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                return await _context.Events.ProjectTo<EventDto>(_mapper.ConfigurationProvider).FirstOrDefaultAsync(e => e.Id == request.Id);
+                var @event = await _context.Events.ProjectTo<EventDto>(_mapper.ConfigurationProvider).FirstOrDefaultAsync(e => e.Id == request.Id);
+                return Result<EventDto>.Success(@event);
             }
         }
     }

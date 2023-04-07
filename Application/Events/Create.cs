@@ -1,5 +1,7 @@
-﻿using Application.Interfaces;
+﻿using Application.Core;
+using Application.Interfaces;
 using Domain;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -8,12 +10,20 @@ namespace Application.Events
 {
     public class Create
     {
-        public class Command : IRequest
+        public class Command : IRequest<Result<Unit>>
         {
             public Event Event { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command>
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(x => x.Event).SetValidator(new EventValidator());
+            }
+        }
+
+        public class Handler : IRequestHandler<Command, Result<Unit>>
         {
             private readonly DataContext _context;
             private readonly IUserAccess _userAccess;
@@ -24,7 +34,7 @@ namespace Application.Events
                 _userAccess = userAccess;
             }
 
-            async Task IRequestHandler<Command>.Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == _userAccess.GetUserName());
                 var participant = new UserEvents
@@ -38,7 +48,11 @@ namespace Application.Events
                 request.Event.Participants.Add(participant);
 
                 _context.Events.Add(request.Event);
-                await _context.SaveChangesAsync();
+                var result = await _context.SaveChangesAsync() > 0;
+
+                if (result) return Result<Unit>.Success(Unit.Value);
+
+                return Result<Unit>.Failure("Falha ao criar evento.");
             }
         }
     }

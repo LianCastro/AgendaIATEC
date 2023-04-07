@@ -11,6 +11,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Persistence;
 using System.Text;
+using FluentValidation.AspNetCore;
+using FluentValidation;
+using AgendaAPI.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +33,8 @@ builder.Services.AddDbContext<DataContext>(opt =>
 });
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(List.Handler).Assembly));
 builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<Create>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IUserAccess, UserAccess>();
 builder.Services.AddIdentityCore<User>(opt =>
@@ -63,6 +68,7 @@ builder.Services.AddScoped<TokenService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseMiddleware<ExceptionMiddleware>();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

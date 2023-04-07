@@ -1,4 +1,5 @@
-﻿using Application.Interfaces;
+﻿using Application.Core;
+using Application.Interfaces;
 using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -8,13 +9,13 @@ namespace Application.Events
 {
     public class UpdateParticipants
     {
-        public class Command : IRequest
+        public class Command : IRequest<Result<Unit>>
         {
             public Guid Id { get; set; }
             public string UserName { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command>
+        public class Handler : IRequestHandler<Command, Result<Unit>>
         {
             private readonly DataContext _context;
             private readonly IUserAccess _userAccess;
@@ -25,11 +26,12 @@ namespace Application.Events
                 _userAccess = userAccessor;
             }
 
-            public async Task Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var @event = await _context.Events
                     .Include(e => e.Participants).ThenInclude(e => e.User)
                     .SingleOrDefaultAsync(x => x.Id == request.Id);
+                if (@event == null) return null;
 
                 var currentUser = await _context.Users.FirstOrDefaultAsync(x => x.UserName == _userAccess.GetUserName());
 
@@ -57,7 +59,10 @@ namespace Application.Events
                     }
                 }
 
-                await _context.SaveChangesAsync();
+                var result = await _context.SaveChangesAsync() > 0;
+                if (result)
+                    return Result<Unit>.Success(Unit.Value);
+                return Result<Unit>.Failure("Falha ao atualizar evento.");
             }
         }
     }

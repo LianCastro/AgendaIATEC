@@ -12,43 +12,43 @@ namespace AgendaAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<EventDto>>> GetEvents()
+        public async Task<IActionResult> GetEvents()
         {
-            return await Mediator.Send(new List.Query());
+            return HandleResult(await Mediator.Send(new List.Query()));
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<EventDto>> GetEvent(Guid id)
+        public async Task<IActionResult> GetEvent(Guid id)
         {
-            return await Mediator.Send(new Details.Query { Id = id });
+            return HandleResult(await Mediator.Send(new Details.Query { Id = id }));
         }
 
         [HttpPost]        
-        public async Task CreateEvent(Event @event)
+        public async Task<IActionResult> CreateEvent(Event @event)
         {
-            await Mediator.Send(new Create.Command { Event = @event});
+            return HandleResult(await Mediator.Send(new Create.Command { Event = @event}));
         }
 
         [Authorize(Policy = "IsEventHost")]
         [HttpPut("{id}")]
-        public async Task EditEvent(Guid id, Event @event)
+        public async Task<IActionResult> EditEvent(Guid id, Event @event)
         {
             @event.Id = id;
-            await Mediator.Send(new Edit.Command { Event = @event });
+            return HandleResult(await Mediator.Send(new Edit.Command { Event = @event }));
         }
 
         [Authorize(Policy = "IsEventHost")]
         [HttpDelete("{id}")]
-        public async Task DeleteEvent(Guid id)
+        public async Task<IActionResult> DeleteEvent(Guid id)
         {
-            await Mediator.Send(new Delete.Command { Id = id });
+            return HandleResult(await Mediator.Send(new Delete.Command { Id = id }));
         }
 
         [HttpPost("{id}/participate")]
-        public async Task Participate(Guid id)
+        public async Task<IActionResult> Participate(Guid id)
         {
             var userName = Request.Form["userName"].FirstOrDefault().ToString();
-            await Mediator.Send(new UpdateParticipants.Command { Id = id, UserName = userName });
+            return HandleResult(await Mediator.Send(new UpdateParticipants.Command { Id = id, UserName = userName }));
         }
     }
 }

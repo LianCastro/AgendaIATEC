@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { AccountService } from './_services/account.service';
+import { User } from './_models/user';
 
 @Component({
   selector: 'app-root',
@@ -7,15 +9,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'Agenda';
-  events: any;
+  title = 'Agenda IATec';
 
-  constructor(private http: HttpClient) {}
+  constructor(private accountService: AccountService) {}
+
   ngOnInit(): void {
-    this.http.get('https://localhost:7025/api/events').subscribe({
-      next: response => this.events = response,
-      error: error => console.log(error),
-      complete: () => console.log('Request completed')
-    })
+    this.setCurrentUser();
+  }
+
+  setCurrentUser() {
+    const userCheck = sessionStorage.getItem('user');
+    if (!userCheck) return;
+    const user: User = JSON.parse(userCheck);
+    this.accountService.setCurrentUser(user);
   }
 }

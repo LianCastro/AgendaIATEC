@@ -25,21 +25,18 @@ namespace AgendaAPI.Controllers
         public async Task<ActionResult<UserDto>> Login(LoginDto login)
         {
             var user = await _userManager.FindByEmailAsync(login.Email);
-            if (user == null) return Unauthorized();
-            var result  = await _userManager.CheckPasswordAsync(user, login.Password);
+            if (user == null) return Unauthorized("e-mail não encontrado");
 
-            if (result)
-            {
-                return CreateUserObject(user);
-            }
-            return Unauthorized();
+            var result  = await _userManager.CheckPasswordAsync(user, login.Password);
+            if (result) return CreateUserObject(user);
+            return Unauthorized("senha incorreta");
         }
 
         [AllowAnonymous]
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
-            if (await _userManager.Users.AnyAsync(x => x.UserName == registerDto.Username))
+            if (await _userManager.Users.AnyAsync(x => x.NormalizedUserName == registerDto.Username.ToUpper()))
             {
                 return BadRequest("Nome de usuário já registrado.");
             }

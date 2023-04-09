@@ -10,15 +10,18 @@ import { Event } from '../_models/event';
 export class DashboardComponent implements OnInit {
   events: Event[] | undefined;
   
-  constructor(private eventService: EventService) {}
+  constructor(private eventService: EventService) {
+  }
 
   ngOnInit(): void {
     this.loadEvents()
   }
 
   loadEvents() {
-    this.eventService.getEvents().subscribe({
-      next: events => this.events = events
+    this.eventService.getEvents(true, false).subscribe({
+      next: events => {
+        if (events) this.events = events;
+      }
     })
   }
 }

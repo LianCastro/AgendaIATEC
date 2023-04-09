@@ -11,7 +11,9 @@ namespace Application.Core
             CreateMap<Event, Event>();
             CreateMap<Event, EventDto>()
                 .ForMember(dest => dest.HostUsername, opt => opt.MapFrom(e => e.Participants
-                    .FirstOrDefault(x => x.IsHost).User.UserName));
+                    .FirstOrDefault(x => x.IsHost).User.UserName))
+                .ForMember(dest => dest.HostDisplayname, opt => opt.MapFrom(e => e.Participants
+                    .FirstOrDefault(x => x.IsHost).User.DisplayName));
             CreateMap<UserEvents, Participant>()
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(ue => ue.User.UserName))
                 .ForMember(dest => dest.DisplayName, opt => opt.MapFrom(ue => ue.User.DisplayName))

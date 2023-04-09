@@ -1,19 +1,19 @@
 <div class="container text-center">
-    <form [formGroup]="editForm" (ngSubmit)="editEvent(event.id)" autocomplete="off" *ngIf="event">
+    <form [formGroup]="createForm" (ngSubmit)="saveEvent()" autocomplete="off">
         <div class="row justify-content-center">
             <div class="col-8">
                 <h2 class="text-center text-primary">Novo Evento</h2>
                 <hr>
                 <div class="row">
-                    <app-text-input class="col-4" [formControl]="$any(editForm.controls['name'])"
+                    <app-text-input class="col-4" [formControl]="$any(createForm.controls['name'])"
                         [label]="'Nome do evento'"></app-text-input>
-                    <app-text-input class="col-8" [formControl]="$any(editForm.controls['description'])"
+                    <app-text-input class="col-8" [formControl]="$any(createForm.controls['description'])"
                         [label]="'Descrição'"></app-text-input>
                 </div>
                 <div class="row">
-                    <app-date-picker class="col-5" [formControl]="$any(editForm.controls['date'])"
+                    <app-date-picker class="col-5" [formControl]="$any(createForm.controls['date'])"
                         [label]="'Data'"></app-date-picker>
-                    <app-text-input class="col-7" [formControl]="$any(editForm.controls['place'])"
+                    <app-text-input class="col-7" [formControl]="$any(createForm.controls['place'])"
                         [label]="'Local'"></app-text-input>
                 </div>
                 <div class="row">

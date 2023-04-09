@@ -40,7 +40,7 @@ namespace Application.Events
                 var participant = new UserEvents
                 {
                     User = user,
-                    DateJoined = DateTime.UtcNow,
+                    DateJoined = DateTime.Now,
                     IsActive = true,
                     IsHost = true,
                     Event = request.Event

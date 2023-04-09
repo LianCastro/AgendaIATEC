@@ -1,18 +1,29 @@
 <div *ngIf="event">
     <div class="card mb-4" id="{{event.id}}">
-        <div class="card-header">{{event.date}}</div>
+        <div class="card-header text-center">{{ event.date | date: 'dd/MM/YYYY' }}</div>
         <div class="card-body">
             <h5 class="card-title">{{event.name}}</h5>
             <p class="card-text">{{event.description}}</p>
-            <p class="card-text"><i class="fa fa-user me-2"></i>{{event.hostUsername}}</p>
-            <a routerLink="/event/{{event.id}}" class="btn btn-outline-secondary">Editar</a>
-            <a (click)="deleteEvent(event.id)" class="btn btn-outline-danger">Excluir</a>
+            <hr>
+            <p class="card-text">Organizador: <i class="fa fa-user-circle me-2"></i>{{event.hostDisplayname}}</p>
             <p class="card-text">
-                <span *ngFor="let participant of event.participants">{{participant.displayName}} </span>
+                Participantes:
+                <span *ngFor="let participant of event.participants"><i
+                        class="fa fa-user-circle-o ms-1 me-1"></i>{{participant.displayName}}</span>
             </p>
+            <ng-container *ngIf="!fromDashboard">
+                <hr>
+                <div class="mb-2" *ngIf="(accountService.currentUser$ | async)?.userName == event.hostUsername">
+                    <a routerLink="/event/edit/{{event.id}}" class="btn btn-outline-secondary btn-sm">Editar</a>
+                    <a (click)="deleteEvent(event.id)" class="btn btn-outline-danger btn-sm">Excluir</a>
+                </div>
+                <div class="mb-2" *ngIf="(accountService.currentUser$ | async)?.userName != event.hostUsername">
+                    <a (click)="participateEvent(event.id)" class="btn btn-outline-info btn-sm">Participar</a>
+                </div>
+            </ng-container>
         </div>
-        <div class="card-footer text-body-secondary">
-            {{event.place}}
+        <div class="card-footer text-center">
+            <p><i class="fa fa-map-marker me-2 mt-2"></i>{{event.place}}</p>
         </div>
     </div>
 </div>

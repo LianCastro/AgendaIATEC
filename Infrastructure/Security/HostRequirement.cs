@@ -25,7 +25,6 @@ namespace Infrastructure.Security
         {
             var userId = context.User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId == null) return Task.CompletedTask;
-
             var eventId = Guid.Parse(_httpContextAccessor.HttpContext?.Request.RouteValues
                 .SingleOrDefault(x => x.Key == "id").Value?.ToString());
 

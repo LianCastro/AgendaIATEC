@@ -12,9 +12,9 @@ namespace AgendaAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetEvents()
+        public async Task<IActionResult> GetEvents([FromQuery]EventParams @params)
         {
-            return HandleResult(await Mediator.Send(new List.Query()));
+            return HandleResult(await Mediator.Send(new List.Query{ Params = @params }));
         }
 
         [HttpGet("{id}")]
@@ -37,6 +37,7 @@ namespace AgendaAPI.Controllers
             return HandleResult(await Mediator.Send(new Edit.Command { Event = @event }));
         }
 
+        [Authorize(Policy = "IsEventHost")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEvent(Guid id)
         {
@@ -46,8 +47,7 @@ namespace AgendaAPI.Controllers
         [HttpPost("{id}/participate")]
         public async Task<IActionResult> Participate(Guid id)
         {
-            var userName = Request.Form["userName"].FirstOrDefault().ToString();
-            return HandleResult(await Mediator.Send(new UpdateParticipants.Command { Id = id, UserName = userName }));
+            return HandleResult(await Mediator.Send(new UpdateParticipants.Command { Id = id }));
         }
     }
 }

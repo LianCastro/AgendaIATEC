@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AccountService } from '../_services/account.service';
-import { Register } from '../_models/register';
+import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -9,17 +9,36 @@ import { Register } from '../_models/register';
 })
 export class RegisterComponent implements OnInit {  
   @Output() cancelRegister = new EventEmitter();
-  model: Register
+  registerForm: FormGroup = new FormGroup({});
 
-  constructor (private accountService: AccountService) {
-    this.model = {displayName:'',email:'',password:'',userName:''}
+  constructor (private accountService: AccountService, private formBuilder: FormBuilder) {
   }
 
   ngOnInit(): void {
+    this.initializeForm();
+  }
+
+  initializeForm() {
+    this.registerForm = this.formBuilder.group({
+      userName: ['', [Validators.required, Validators.pattern('^[A-Za-z][A-Za-z0-9_]{5,11}$')]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]],
+      confirmPassword: ['', [Validators.required, this.matchValues('password')]],
+      displayName: ['', Validators.required]
+    });
+    this.registerForm.controls['password'].valueChanges.subscribe({
+      next: () => this.registerForm.controls['confirmPassword'].updateValueAndValidity()
+    });
+  }
+
+  matchValues(matchTo: string): ValidatorFn {
+    return (control: AbstractControl) => {
+      return control.value === control.parent?.get(matchTo)?.value ? null : {notMatching: true}
+    }
   }
 
   register() {
-    this.accountService.register(this.model).subscribe({
+     this.accountService.register(this.registerForm.value).subscribe({
       next: () => this.cancel()
     })
   }

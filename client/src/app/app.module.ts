@@ -6,11 +6,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavComponent } from './nav/nav.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
-import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { EventListComponent } from './events/event-list/event-list.component';
 import { EventDetailComponent } from './events/event-detail/event-detail.component';
@@ -20,6 +20,10 @@ import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
 import { EventCardComponent } from './events/event-card/event-card.component';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
+import { EventNewComponent } from './events/event-new/event-new.component';
+import { TextInputComponent } from './_forms/text-input/text-input.component';
+import { DatePickerComponent } from './_forms/date-picker/date-picker.component';
+import { EventParticipateComponent } from './events/event-participate/event-participate.component';
 
 @NgModule({
   declarations: [
@@ -32,16 +36,21 @@ import { JwtInterceptor } from './_interceptors/jwt.interceptor';
     EventDetailComponent,
     NotFoundComponent,
     ServerErrorComponent,
-    EventCardComponent
+    EventCardComponent,
+    EventNewComponent,
+    TextInputComponent,
+    DatePickerComponent,
+    EventParticipateComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     BsDropdownModule.forRoot(),
-    AccordionModule.forRoot(),
+    BsDatepickerModule.forRoot(),
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,

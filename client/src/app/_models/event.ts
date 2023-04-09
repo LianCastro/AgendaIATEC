@@ -7,6 +7,13 @@ export interface Event {
     date: Date
     place: string
     hostUsername: string
+    hostDisplayname: string
     participants: Participant[]
   }
   
+export interface NewEvent {
+    name: string
+    description: string
+    date: Date
+    place: string
+}

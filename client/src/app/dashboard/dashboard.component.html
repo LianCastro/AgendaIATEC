@@ -1,22 +1,8 @@
 <div class="container">
-    <h1>Meus Eventos</h1>
-    <accordion [isAnimated]="true">
-        <accordion-group *ngFor="let event of events" [heading]="event.name">
-            {{event.description}}
-        </accordion-group>
-    </accordion>
-</div>
-<div class="container">
-    <div class="card mb-4 text-center" *ngFor="let event of events">
-        <div class="card-header">{{event.date}}</div>
-        <div class="card-body">
-            <h5 class="card-title">{{event.name}}</h5>
-            <p class="card-text">{{event.description}}</p>
-            <p class="card-text"><i class="fa fa-user me-2"></i>{{event.hostUsername}}</p>
-            <p class="card-text" *ngFor="let participant of event.participants">{{participant.displayName}}</p>
-        </div>
-        <div class="card-footer text-body-secondary">
-            {{event.place}}
+    <h1>Minha Agenda</h1>
+    <div class="row">
+        <div class="col-4" *ngFor="let event of events">
+            <app-event-card [fromDashboard]="true" [event]="event"></app-event-card>
         </div>
     </div>
 </div>

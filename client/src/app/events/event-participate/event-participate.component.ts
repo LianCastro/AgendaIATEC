@@ -3,11 +3,11 @@ import { Event } from 'src/app/_models/event';
 import { EventService } from 'src/app/_services/event.service';
 
 @Component({
-  selector: 'app-event-list',
-  templateUrl: './event-list.component.html',
-  styleUrls: ['./event-list.component.css']
+  selector: 'app-event-participate',
+  templateUrl: './event-participate.component.html',
+  styleUrls: ['./event-participate.component.css']
 })
-export class EventListComponent implements OnInit {
+export class EventParticipateComponent implements OnInit {
   events: Event[] = [];
   
   constructor(private eventService: EventService) {
@@ -18,10 +18,11 @@ export class EventListComponent implements OnInit {
   }
 
   loadEvents() {
-    this.eventService.getEvents(false, true).subscribe({
+    this.eventService.getEvents(false, false).subscribe({
       next: events => {
         if (events) this.events = events;
       }
     })
   }
+
 }

@@ -12,7 +12,6 @@ namespace Application.Events
         public class Command : IRequest<Result<Unit>>
         {
             public Guid Id { get; set; }
-            public string UserName { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, Result<Unit>>
@@ -33,30 +32,22 @@ namespace Application.Events
                     .SingleOrDefaultAsync(x => x.Id == request.Id);
                 if (@event == null) return null;
 
-                var currentUser = await _context.Users.FirstOrDefaultAsync(x => x.UserName == _userAccess.GetUserName());
+                var currentUser = await _context.Users.FirstOrDefaultAsync(x => x.NormalizedUserName == _userAccess.GetUserName().ToUpper());
 
-                var hostUserName = @event.Participants.FirstOrDefault(x => x.IsHost)?.User.UserName;
+                var checkIsParticipant = @event.Participants.Any(x => x.User.NormalizedUserName == currentUser.UserName.ToUpper());
 
-                var participant = @event.Participants.FirstOrDefault(x => x.User.UserName == request.UserName);
-
-                if (hostUserName == currentUser.UserName)
+                if (!checkIsParticipant)
                 {
-                    if (participant != null) { @event.Participants.Remove(participant); }
-                    else
+                    var participant = new UserEvents
                     {
-                        var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == request.UserName);
+                        User = currentUser,
+                        Event = @event,
+                        IsHost = false,
+                        IsActive = true,
+                        DateJoined = DateTime.Now
+                    };
 
-                        participant = new UserEvents
-                        {
-                            User = user,
-                            Event = @event,
-                            IsHost = false,
-                            IsActive = true,
-                            DateJoined = DateTime.Now
-                        };
-
-                        @event.Participants.Add(participant);
-                    }
+                    @event.Participants.Add(participant);
                 }
 
                 var result = await _context.SaveChangesAsync() > 0;

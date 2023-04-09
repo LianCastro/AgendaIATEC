@@ -8,6 +8,7 @@
         public DateTime Date { get; set; }
         public string Place { get; set; }
         public string HostUsername { get; set; }
+        public string HostDisplayname { get; set; }
         public ICollection<Participant> Participants { get; set; }
     }
 }

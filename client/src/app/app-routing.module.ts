@@ -6,6 +6,8 @@ import { EventDetailComponent } from './events/event-detail/event-detail.compone
 import { AuthGuard } from './_guards/auth.guard';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
+import { EventNewComponent } from './events/event-new/event-new.component';
+import { EventParticipateComponent } from './events/event-participate/event-participate.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -14,8 +16,9 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {path: 'event/list', component: EventListComponent},
-      {path: 'event/:id', component: EventDetailComponent},
-      {path: 'event/', component: EventDetailComponent},
+      {path: 'event/participate', component: EventParticipateComponent},
+      {path: 'event/edit/:id', component: EventDetailComponent},
+      {path: 'event/new', component: EventNewComponent},
     ]
   },  
   {path: 'not-found', component: NotFoundComponent},

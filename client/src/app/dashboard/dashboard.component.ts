@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { EventService } from '../_services/event.service';
+import { Event } from '../_models/event';
 
 @Component({
   selector: 'app-dashboard',
@@ -6,11 +8,17 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  @Input() eventsFromHomeComponent: any;
+  events: Event[] | undefined;
   
-  constructor () {}
-  
+  constructor(private eventService: EventService) {}
+
   ngOnInit(): void {
+    this.loadEvents()
   }
 
+  loadEvents() {
+    this.eventService.getEvents().subscribe({
+      next: events => this.events = events
+    })
+  }
 }

@@ -1,0 +1,18 @@
+<div *ngIf="event">
+    <div class="card mb-4" id="{{event.id}}">
+        <div class="card-header">{{event.date}}</div>
+        <div class="card-body">
+            <h5 class="card-title">{{event.name}}</h5>
+            <p class="card-text">{{event.description}}</p>
+            <p class="card-text"><i class="fa fa-user me-2"></i>{{event.hostUsername}}</p>
+            <a routerLink="/event/{{event.id}}" class="btn btn-outline-secondary">Editar</a>
+            <a (click)="deleteEvent(event.id)" class="btn btn-outline-danger">Excluir</a>
+            <p class="card-text">
+                <span *ngFor="let participant of event.participants">{{participant.displayName}} </span>
+            </p>
+        </div>
+        <div class="card-footer text-body-secondary">
+            {{event.place}}
+        </div>
+    </div>
+</div>

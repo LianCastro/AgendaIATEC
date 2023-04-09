@@ -1,9 +1,9 @@
 <div class="container text-center">
-    <form #registerForm="ngForm" (ngSubmit)="register()" autocomplete="off">
+    <form #registerForm="ngForm" (ngSubmit)="register()" autocomplete="off" *ngIf="model">
         <h2 class="text-center text-primary">Registrar</h2>
         <hr>
         <div class="mb-3">
-            <input type="text" class="form-control" name="username" [(ngModel)]="model.username"
+            <input type="text" class="form-control" name="username" [(ngModel)]="model.userName"
                 placeholder="Nome de usuário">
         </div>
         <div class="mb-3">
@@ -14,7 +14,7 @@
                 placeholder="Senha">
         </div>
         <div class="mb-3">
-            <input type="text" class="form-control" name="displayname" [(ngModel)]="model.displayname"
+            <input type="text" class="form-control" name="displayname" [(ngModel)]="model.displayName"
                 placeholder="Nome de Exibição">
         </div>
         <div class="text-center">

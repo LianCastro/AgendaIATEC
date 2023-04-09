@@ -36,7 +36,7 @@ namespace AgendaAPI.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
-            if (await _userManager.Users.AnyAsync(x => x.NormalizedUserName == registerDto.Username.ToUpper()))
+            if (await _userManager.Users.AnyAsync(x => x.NormalizedUserName == registerDto.UserName.ToUpper()))
             {
                 return BadRequest("Nome de usuário já registrado.");
             }
@@ -45,7 +45,7 @@ namespace AgendaAPI.Controllers
             {
                 DisplayName = registerDto.DisplayName,
                 Email = registerDto.Email,
-                UserName = registerDto.Username
+                UserName = registerDto.UserName
             };
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
@@ -71,7 +71,7 @@ namespace AgendaAPI.Controllers
         {
             var query = _userManager.Users;
             var list = await query.ToListAsync();
-            var result = list.Select(x => new UserDto { DisplayName = x.DisplayName, Username = x.UserName }).ToList();
+            var result = list.Select(x => new UserDto { DisplayName = x.DisplayName, UserName = x.UserName }).ToList();
             return result;
         }
 
@@ -81,7 +81,7 @@ namespace AgendaAPI.Controllers
             {
                 DisplayName = user.DisplayName,
                 Token = _tokenService.CreateToken(user),
-                Username = user.UserName
+                UserName = user.UserName
             };
         }
     }

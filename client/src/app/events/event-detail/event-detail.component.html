@@ -1,1 +1,6 @@
-<p>event-detail works!</p>
+<div class="row" *ngIf="event">
+    <div class="co-4">
+        <p>{{event.name}}</p>
+        <p>{{event.description}}</p>
+    </div>
+</div>

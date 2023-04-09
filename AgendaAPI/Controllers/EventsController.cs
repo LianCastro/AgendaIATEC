@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AgendaAPI.Controllers
 {
-    [AllowAnonymous]
     public class EventsController : BaseApiController
     {
         public EventsController()
@@ -38,7 +37,6 @@ namespace AgendaAPI.Controllers
             return HandleResult(await Mediator.Send(new Edit.Command { Event = @event }));
         }
 
-        [Authorize(Policy = "IsEventHost")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEvent(Guid id)
         {

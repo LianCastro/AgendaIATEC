@@ -28,7 +28,10 @@ export class ErrorInterceptor implements HttpInterceptor {
                     modelStateErrors.push(response.error.errors[key])
                   }
                 }
-                throw modelStateErrors.flat();
+                const errors = modelStateErrors.flat();
+                errors.forEach(element => {
+                  this.toastr.error(element, response.status.toString())
+                });
               } else {
                 this.toastr.error(response.error, response.status.toString())
               }

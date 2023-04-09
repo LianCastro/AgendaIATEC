@@ -6,7 +6,7 @@
                 <a class="nav-link" routerLink="/event/list" routerLinkActive="active">Meus eventos</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" routerLink="/event/new" routerLinkActive="active">Novo evento</a>
+                <a class="nav-link" routerLink="/event/" routerLinkActive="active">Novo evento</a>
             </li>
         </ul>
         <div *ngIf="(accountService.currentUser$ | async) as user" class="dropdown" dropdown>

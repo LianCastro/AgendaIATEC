@@ -15,7 +15,7 @@ const routes: Routes = [
     children: [
       {path: 'event/list', component: EventListComponent},
       {path: 'event/:id', component: EventDetailComponent},
-      {path: 'event/new', component: EventDetailComponent},
+      {path: 'event/', component: EventDetailComponent},
     ]
   },  
   {path: 'not-found', component: NotFoundComponent},

@@ -30,10 +30,15 @@ namespace Application.Events
             public async Task<Result<List<EventDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var query = _context.Events
-                    .Where(d => d.Date >= request.Params.StartDate)
                     .OrderBy(d => d.Date)
                     .ProjectTo<EventDto>(_mapper.ConfigurationProvider)
                     .AsQueryable();
+                if (request.Params.StartDate.HasValue && request.Params.EndDate.HasValue)
+                    query = query.Where(d => d.Date >= request.Params.StartDate && d.Date <= request.Params.EndDate);
+                if (request.Params.StartDate.HasValue && !request.Params.EndDate.HasValue)
+                    query = query.Where(d => d.Date >= request.Params.StartDate);
+                if (!request.Params.StartDate.HasValue && request.Params.EndDate.HasValue)
+                    query = query.Where(d => d.Date <= request.Params.EndDate);
                 if (request.Params.IsGoing && !request.Params.IsHost)
                     query = query.Where(x => x.Participants.Any(p => p.UserName.ToUpper() == _userAccess.GetUserName().ToUpper()));
                 if (request.Params.IsHost && !request.Params.IsGoing)

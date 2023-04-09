@@ -13,7 +13,6 @@ import { ReloadComponent } from 'src/app/_util/reload.component';
 })
 export class EventDetailComponent extends ReloadComponent implements OnInit {
   editForm: FormGroup = new FormGroup({});
-  //@ViewChild('editForm') editForm: NgForm | undefined;
   event: Event | undefined;
 
   constructor(private eventService: EventService, private formBuilder: FormBuilder, private route: ActivatedRoute, private toastr: ToastrService, protected override router: Router) {

@@ -12,8 +12,8 @@ export class EventService {
 
   constructor(private http: HttpClient) { }
 
-  getEvents(isGoing: boolean, isHost: boolean, startDate?: Date) {
-    let params = this.getParams(isGoing, isHost, startDate);
+  getEvents(isGoing: boolean, isHost: boolean, startDate?: Date, endDate?: Date) {
+    let params = this.getParams(isGoing, isHost, startDate, endDate);
     return this.http.get<Event[]>(this.baseUrl + 'events', {observe: 'response', params: params}).pipe(
       map(response => {
         if (response) return response.body;
@@ -42,11 +42,12 @@ export class EventService {
     return this.http.post(this.baseUrl + 'events', event)
   }
 
-  private getParams(isGoing: boolean, isHost: boolean, startDate?: Date) {
+  private getParams(isGoing: boolean, isHost: boolean, startDate?: Date, endDate?: Date) {
     let params = new HttpParams();
     params = params.append('isGoing', isGoing);
     params = params.append('isHost', isHost);
-    if (startDate) params = params.append('startDate', startDate.toDateString())
+    if (startDate) params = params.append('startDate', startDate.toISOString())
+    if (endDate) params = params.append('endDate', endDate.toISOString())
 
     return params;
   }

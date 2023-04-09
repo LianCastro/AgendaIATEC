@@ -1,5 +1,20 @@
 <div class="container">
     <h1>Minha Agenda</h1>
+    <form [formGroup]="filterForm" (ngSubmit)="filterEvents()">
+        <div class="row">
+            <div class="col-2">
+                <app-date-picker class="col-5" [formControl]="$any(filterForm.controls['startDate'])"
+                    [label]="'Data Inicial'"></app-date-picker>
+            </div>
+            <div class="col-2">
+                <app-date-picker class="col-5" [formControl]="$any(filterForm.controls['endDate'])"
+                    [label]="'Data Final'"></app-date-picker>
+            </div>
+            <div class="col-1">
+                <button type="submit" class="btn btn-info">Filtrar</button>
+            </div>
+        </div>
+    </form>
     <div class="row">
         <div class="col-4" *ngFor="let event of events">
             <app-event-card [fromDashboard]="true" [event]="event"></app-event-card>

@@ -17,6 +17,7 @@ export class DatePickerComponent implements ControlValueAccessor{
       containerClass: 'theme-blue',
       dateInputFormat: 'DD/MM/YYYY HH:MM',
       withTimepicker: true,
+      showWeekNumbers: false
     }
   }
   
